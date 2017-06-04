@@ -1,5 +1,6 @@
-require "kitsune/version"
+require 'kitsune/version'
+require 'kitsune/extend'
 
 module Kitsune
-  # Your code goes here...
+  autoload :Util, 'kitsune/util'
 end
