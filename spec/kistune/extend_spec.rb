@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-require 'kitsune/extend'
-
 RSpec.describe 'kitsune/extend' do
   it 'String can be cast to hex' do
     expect('hello'.to_hex).to eql '68656c6c6f'
