@@ -1,24 +1,10 @@
 module Kitsune
   module Util
-    def self.incr_array(array, count = 1)
-      i = 0
-      loop do
-        initial = array[i] || 0
-        incr = initial + count
-        quotient = incr / 256
-        rem = incr % 256
-        array[i] = rem
+    def self.binary_op(op, a, b)
+      a_int = a.respond_to?(:bytes) ? a.bytes.to_i : a.to_i
+      b_int = b.respond_to?(:bytes) ? b.bytes.to_i : b.to_i
 
-        break if quotient == 0
-        i += 1
-        count = quotient
-      end
-      array
-    end
-
-    def self.incr_str(str, count = 1)
-      result = incr_array str.bytes, count
-      result.pack 'c*'
+      a_int.send(op, b_int).to_a
     end
 
     def self.str_to_hex(str)
