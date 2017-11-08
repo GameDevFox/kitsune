@@ -7,7 +7,7 @@ module Kitsune
     autoload :ExtendedGraph, "#{prefix}/extended_graph"
     autoload :Node, "#{prefix}/node"
     autoload :QueryResult, "#{prefix}/query_result"
-    autoload :SQLite3Edges, "#{prefix}/sqlite3_graph"
+    autoload :SQLite3Edges, "#{prefix}/sqlite3_edges"
 
     autoload :BiDirectionalPathGraph, "#{prefix}/modules/bi_directional_path_graph"
     autoload :CompositeGraph, "#{prefix}/modules/composite_graph"

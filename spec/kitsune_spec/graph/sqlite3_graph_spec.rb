@@ -6,21 +6,18 @@ module SQLite3GraphSpec
   RSpec.describe Kitsune::Graph::SQLite3Edges do
 
     before(:each) do
-      db = GraphSpecHelper.create_db
-      @edges = Kitsune::Graph::SQLite3Edges.new db
+      @db = GraphSpecHelper.create_db
+      @edges = Kitsune::Graph::SQLite3Edges.new @db
 
       @edge = @edges.create_edge 'head', 'tail'
     end
 
-    it 'should return the edge' do
-      expect(@edge[0..1]).to eql %w(head tail)
-      expect(@edge[2].to_hex).to eql '83cacc2787dbf0a7e81fa3304be07f1c683ff968f4105b3318141522a9face1f'
-    end
-
     it 'should be able to get edges' do
-      edge = @edges.get_edges @edge
-      expect(edge[0][0..1]).to eql %w(head tail)
-      expect(edge[0][2].to_hex).to eql '83cacc2787dbf0a7e81fa3304be07f1c683ff968f4105b3318141522a9face1f'
+      edge = @edges.get_edges(@edge)[0]
+
+      expect(edge['head']).to eql 'head'
+      expect(edge['tail']).to eql 'tail'
+      expect(edge[2].to_hex).to eql('87c2aebe999878ed1c244b6a85d1a2ad0b5c6f0916afed00797c1bc7d6097961')
     end
 
     it 'should be able to search edges' do

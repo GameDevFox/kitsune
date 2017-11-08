@@ -7,7 +7,7 @@ module Kitsune
 
       def create_rel(head, tail, type)
         edge = create_edge head, tail
-        create_edge type, edge[2]
+        create_edge type, edge
       end
 
       def search(head: nil, tail: nil, rel: nil)
@@ -17,11 +17,11 @@ module Kitsune
         # Filter base_edges by rel
         rel_edges = nil
         if rel
-          edge_ids = base_edges&.map { |edge| edge[2] }
+          edge_ids = base_edges&.map { |edge| edge['edge'] }
           rel_edges = search_edges rel, edge_ids
           if base_edges
-            rel_edge_tails = rel_edges.map { |edge| edge[1] }
-            base_edges.select! { |edge| rel_edge_tails.include? edge[2] }
+            rel_edge_tails = rel_edges.map { |edge| edge['tail'] }
+            base_edges.select! { |edge| rel_edge_tails.include? edge['edge'] }
           end
         end
 

@@ -25,7 +25,7 @@ module Kitsune
 
       private
       def is_in?(group, node)
-        edge = Kitsune::Hash.compound_hash([group, node])
+        edge = Kitsune::Hash.list_hash([group, node])
         @edge_source.has_edge edge
       end
     end

@@ -1,5 +1,4 @@
 require 'digest/sha2'
-require 'jose'
 
 module Kitsune
   module Hash
@@ -18,30 +17,16 @@ module Kitsune
       return hash
     end
 
-    def self.compound_hash(list)
-      result = "\x01"
-
-      count = 0
-      list.each do |item|
-        # First sha the item
-        item_hash = sha256(item)
-        idx_hash = index_hash count
-
-        # Make sure to trim the result to 32 bytes
-        rotated_item_hash = item_hash.binary_add(idx_hash).slice(0...32)
-        result = result.binary_mul(rotated_item_hash).slice(0...32)
-
-        count += 1
-      end
-
-      result
+    def self.list_hash(list)
+      list.each { |x| x.force_encoding 'ascii-8bit' }
+      sha256 list.join
     end
 
-    def self.chain_hash(key, size: 32, index: 0)
+    def self.chain_hash(key, index: 0)
       hash = sha256 key
       hash = hash.binary_add index
 
-      JOSE::JWA::SHA3.shake256(hash, size)
+      sha256 hash
     end
   end
 end

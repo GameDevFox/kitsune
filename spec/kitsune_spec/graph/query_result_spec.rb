@@ -34,12 +34,14 @@ module QueryResultSpec
 
     it 'should be able to get edge_nodes' do
       result = @edges.search rel: NAME
-      expect(result.edge_nodes).to eql @rel_edges.map { |edge| edge[1] }
+      actual = @edges.get_edges(@rel_edges).map { |edge| edge['tail'] }
+
+      expect(result.edge_nodes).to contain_exactly *actual
     end
 
     it 'should be able to get rel_edge_nodes' do
       result = @edges.search rel: NAME
-      expect(result.rel_edge_nodes).to eql @rel_edges.map { |edge| edge[2] }
+      expect(result.rel_edge_nodes).to eql @rel_edges
     end
   end
 

@@ -18,7 +18,8 @@ module GraphSpecHelper
 
   def self.create_db
     db = SQLite3::Database.new(':memory:')
-    db.execute 'CREATE TABLE edges (head TEXT, tail TEXT, edge TEXT);'
+    Kitsune::Graph::SQLite3Edges.init db
+
     db
   end
 

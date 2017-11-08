@@ -11,9 +11,9 @@ module ExtendedEdgesSpec
     end
 
     context 'should be able to search' do
-
       it 'all' do
         result = @edges.search
+
         expect(result.edges.size).to be 27
         expect(result.rel_edges.size).to be 9
       end
@@ -32,7 +32,7 @@ module ExtendedEdgesSpec
 
       it 'edges' do
         result = @edges.search head: SAME_GROUP, tail: CHILD_B
-        expect(result.edges[0][2].to_hex).to eql '4ad3baf82451bac6060bd484ea37914d6e91fbb96846c1ede82834a674ebf0be'
+        expect(result.edges[0]['edge'].to_hex).to eql('ad19b9a6775c62d18037b3b65544f9adbc92a42fb0a3f3b4f1ade8c9da1a6893')
         expect(result.rel_edges.size).to be 0
       end
 

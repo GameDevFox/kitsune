@@ -11,7 +11,7 @@ module Kitsune
       end
 
       def edges
-        @base_edges ||= @edges.get_edges rel_edges.map{ |edge| edge[1] }
+        @base_edges ||= @edges.get_edges(rel_edges.map{ |edge| edge['tail'] })
       end
 
       def rel_edges
@@ -19,23 +19,23 @@ module Kitsune
       end
 
       def heads
-        edges.map { |edge| edge[0] }.uniq
+        edges.map { |edge| edge['head'] }.uniq
       end
 
       def tails
-        edges.map { |edge| edge[1] }.uniq
+        edges.map { |edge| edge['tail'] }.uniq
       end
 
       def rels
-        rel_edges.map { |edge| edge[0] }.uniq
+        rel_edges.map { |edge| edge['head'] }.uniq
       end
 
       def edge_nodes
-        edges.map { |edge| edge[2] }.uniq
+        edges.map { |edge| edge['edge'] }.uniq
       end
 
       def rel_edge_nodes
-        rel_edges.map { |edge| edge[2] }.uniq
+        rel_edges.map { |edge| edge['edge'] }.uniq
       end
     end
 

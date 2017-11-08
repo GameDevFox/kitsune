@@ -1,6 +1,8 @@
 module Kitsune
   module Nodes
 
+    # TODO: Move these into a graph with names
+
     # Nodes
     INDEX_BASE_HASH = "\x9E\xBC~~7\xA2b\xEE\xD9\xF5\x0E\xB0\xE2\x06u\xDBC\xFDo\xA2Bm\x7F}VS\xD5EI\x04\x84\x14"
 

@@ -22,6 +22,10 @@ class String
     result.pack 'c*'
   end
 
+  def from_hex
+    Kitsune::Util.hex_to_str self
+  end
+
   def to_hex
     Kitsune::Util.str_to_hex self
   end

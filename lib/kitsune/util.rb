@@ -7,6 +7,10 @@ module Kitsune
       a_int.send(op, b_int).to_a
     end
 
+    def self.hex_to_str(hex)
+      [hex].pack('H*')
+    end
+
     def self.str_to_hex(str)
       str.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join
     end
