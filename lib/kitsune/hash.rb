@@ -1,32 +1,30 @@
 require 'digest/sha2'
 
-module Kitsune
-  module Hash
-    include Kitsune::Nodes
+module Kitsune::Hash
+  include Kitsune::Nodes
 
-    def self.sha256(key)
-      Digest::SHA256.digest key
-    end
+  def self.sha256(key)
+    Digest::SHA256.digest key
+  end
 
-    def self.index_hash(index)
-      hash = INDEX_BASE_HASH
-      while index > 0 do
-        hash = sha256 hash
-        index -= 1
-      end
-      return hash
-    end
+  def self.hash_list(list)
+    sha256 list.join
+  end
 
-    def self.list_hash(list)
-      list.each { |x| x.force_encoding 'ascii-8bit' }
-      sha256 list.join
-    end
+  def self.hash_type(type, list)
+    hash_list [type] + list
+  end
 
-    def self.chain_hash(key, index: 0)
-      hash = sha256 key
-      hash = hash.binary_add index
+  def self.edge_hash(edge)
+    norm_edge = edge[0..1].map { |x| x.class == Array ? edge_hash(x) : x }
+    hash_type EDGE, norm_edge
+  end
 
-      sha256 hash
-    end
+  def self.group_hash(group)
+    hash_type GROUP, group.sort
+  end
+
+  def self.list_hash(list)
+    hash_type LIST, list
   end
 end

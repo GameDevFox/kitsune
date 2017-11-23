@@ -10,7 +10,7 @@ module Kitsune
       end
 
       def travel(node, path)
-        @edge_source.search(head: node, rel: path).tails
+        @edge_source.search(head: node, type: path).tails
       end
     end
 

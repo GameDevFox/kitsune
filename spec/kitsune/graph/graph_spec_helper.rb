@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 module GraphSpecHelper
-  N = Kitsune::Nodes
-
+  include Kitsune::Nodes
+  
   SIBLING = 'sibling'
   PARENT = 'parent'
   CHILD = 'child'
@@ -28,19 +28,19 @@ module GraphSpecHelper
 
     edges = Kitsune::Graph::SQLite3Edges.new db
     edges.create_edge 'head', 'tail'
-    edges.create_rel 'brother', 'sister', SIBLING
-    edges.create_rel 'father', 'son', CHILD
+    edges.create_type 'brother', 'sister', SIBLING
+    edges.create_type 'father', 'son', CHILD
 
     # Set as bi-directional paths
-    edges.create_edge N::BI_DIRECTIONAL_PATHS, N::INVERSE_PATH
-    edges.create_edge N::BI_DIRECTIONAL_PATHS, SIBLING
-    edges.create_edge N::BI_DIRECTIONAL_PATHS, SAME
+    edges.create_edge BI_DIRECTIONAL_PATHS, INVERSE_PATH
+    edges.create_edge BI_DIRECTIONAL_PATHS, SIBLING
+    edges.create_edge BI_DIRECTIONAL_PATHS, SAME
 
     # Set CHILD as the inverse path of PARENT
-    edges.create_rel PARENT, CHILD, N::INVERSE_PATH
+    edges.create_type PARENT, CHILD, INVERSE_PATH
 
     # Create bi-directional group and add children
-    edges.create_rel SAME, SAME_GROUP, N::BI_DIRECTIONAL_GROUP
+    edges.create_type SAME, SAME_GROUP, BI_DIRECTIONAL_GROUP
     edges.create_edge SAME_GROUP, CHILD_A
     edges.create_edge SAME_GROUP, CHILD_B
     edges.create_edge SAME_GROUP, CHILD_C
@@ -55,12 +55,12 @@ module GraphSpecHelper
   end
 
   def self.add_some_edges(edges)
-    rel_edges = []
-    rel_edges.push edges.create_rel('Alice', 'a', NAME)
-    rel_edges.push edges.create_rel('Bob', 'b', NAME)
-    rel_edges.push edges.create_rel('Robert', 'b', NAME)
-    rel_edges.push edges.create_rel('Chris', 'c', NAME)
-    rel_edges.push edges.create_rel('Alice', 'aa', NAME)
-    rel_edges
+    type_edges = []
+    type_edges.push edges.create_type('Alice', 'a', NAME)
+    type_edges.push edges.create_type('Bob', 'b', NAME)
+    type_edges.push edges.create_type('Robert', 'b', NAME)
+    type_edges.push edges.create_type('Chris', 'c', NAME)
+    type_edges.push edges.create_type('Alice', 'aa', NAME)
+    type_edges
   end
 end

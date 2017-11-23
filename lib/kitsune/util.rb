@@ -1,18 +1,11 @@
 module Kitsune
   module Util
-    def self.binary_op(op, a, b)
-      a_int = a.respond_to?(:bytes) ? a.bytes.to_i : a.to_i
-      b_int = b.respond_to?(:bytes) ? b.bytes.to_i : b.to_i
-
-      a_int.send(op, b_int).to_a
-    end
-
     def self.hex_to_str(hex)
       [hex].pack('H*')
     end
 
     def self.str_to_hex(str)
-      str.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join
+      str.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join.force_encoding(Encoding::ASCII_8BIT)
     end
   end
 end

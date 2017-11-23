@@ -19,12 +19,12 @@ module GraphSpec
     end
 
     it 'should be able to travel head paths' do
-      result = @graph['tail'] * N::HEAD
+      result = @graph['tail'] * HEAD
       expect(result).to eql ['head']
     end
 
     it 'should be able to travel tail paths' do
-      result = @graph['head'] * N::TAIL
+      result = @graph['head'] * TAIL
       expect(result).to eql ['tail']
     end
 
@@ -32,7 +32,7 @@ module GraphSpec
       result = @graph['brother'] * SIBLING
       expect(result).to eql ['sister']
 
-      result = @graph[PARENT] * N::INVERSE_PATH
+      result = @graph[PARENT] * INVERSE_PATH
       expect(result).to eql [CHILD]
     end
 
@@ -40,7 +40,7 @@ module GraphSpec
       result = @graph['sister'] * SIBLING
       expect(result).to eql ['brother']
 
-      result = @graph[CHILD] * N::INVERSE_PATH
+      result = @graph[CHILD] * INVERSE_PATH
       expect(result).to eql [PARENT]
     end
 

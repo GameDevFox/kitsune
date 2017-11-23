@@ -1,5 +1,7 @@
 require_relative 'graph_spec_helper'
 
+using Kitsune::Refine
+
 module ExtendedEdgesSpec
   include GraphSpecHelper
 
@@ -15,49 +17,49 @@ module ExtendedEdgesSpec
         result = @edges.search
 
         expect(result.edges.size).to be 27
-        expect(result.rel_edges.size).to be 9
+        expect(result.type_edges.size).to be 9
       end
 
       it 'tails' do
         result = @edges.search head: SAME_GROUP
         expect(result.edges.size).to be 4
-        expect(result.rel_edges.size).to be 0
+        expect(result.type_edges.size).to be 0
       end
 
       it 'heads' do
         result = @edges.search tail: 'tail'
         expect(result.edges.size).to be 2
-        expect(result.rel_edges.size).to be 0
+        expect(result.type_edges.size).to be 0
       end
 
       it 'edges' do
         result = @edges.search head: SAME_GROUP, tail: CHILD_B
         expect(result.edges[0]['edge'].to_hex).to eql('ad19b9a6775c62d18037b3b65544f9adbc92a42fb0a3f3b4f1ade8c9da1a6893')
-        expect(result.rel_edges.size).to be 0
+        expect(result.type_edges.size).to be 0
       end
 
-      it 'relationship edges' do
-        result = @edges.search rel: NAME
+      it 'type edges' do
+        result = @edges.search type: NAME
         expect(result.edges.size).to be 5
-        expect(result.rel_edges.size).to be 5
+        expect(result.type_edges.size).to be 5
       end
 
-      it 'tail relationships' do
-        result = @edges.search head: 'Alice', rel: NAME
+      it 'tail types' do
+        result = @edges.search head: 'Alice', type: NAME
         expect(result.edges.size).to be 2
-        expect(result.rel_edges.size).to be 2
+        expect(result.type_edges.size).to be 2
       end
 
-      it 'head relationships' do
-        result = @edges.search tail: 'b', rel: NAME
+      it 'head types' do
+        result = @edges.search tail: 'b', type: NAME
         expect(result.edges.size).to be 2
-        expect(result.rel_edges.size).to be 2
+        expect(result.type_edges.size).to be 2
       end
 
-      it 'relationships' do
-        result = @edges.search head: 'Alice', tail: 'a', rel: NAME
+      it 'types' do
+        result = @edges.search head: 'Alice', tail: 'a', type: NAME
         expect(result.edges.size).to be 1
-        expect(result.rel_edges.size).to be 1
+        expect(result.type_edges.size).to be 1
       end
     end
   end

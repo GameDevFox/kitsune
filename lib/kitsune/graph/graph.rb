@@ -1,19 +1,21 @@
-module Kitsune
+module Kitsune::Graph
+  prefix = 'kitsune/graph'
 
-  module Graph
-    prefix = 'kitsune/graph'
+  autoload :ExtendedEdges, "#{prefix}/extended_edges"
+  autoload :ExtendedGraph, "#{prefix}/extended_graph"
+  autoload :Node, "#{prefix}/node"
+  autoload :QueryResult, "#{prefix}/query_result"
+  autoload :Relation, "#{prefix}/relation.rb"
+  autoload :SQLite3Edges, "#{prefix}/sqlite3_edges"
+  autoload :SQLite3Graph, "#{prefix}/sqlite3_graph"
+  autoload :System, "#{prefix}/system"
 
-    autoload :ExtendedEdges, "#{prefix}/extended_edges"
-    autoload :ExtendedGraph, "#{prefix}/extended_graph"
-    autoload :Node, "#{prefix}/node"
-    autoload :QueryResult, "#{prefix}/query_result"
-    autoload :SQLite3Edges, "#{prefix}/sqlite3_edges"
+  module_prefix = "#{prefix}/modules"
 
-    autoload :BiDirectionalPathGraph, "#{prefix}/modules/bi_directional_path_graph"
-    autoload :CompositeGraph, "#{prefix}/modules/composite_graph"
-    autoload :EdgeGraph, "#{prefix}/modules/edge_graph"
-    autoload :InversePathGraph, "#{prefix}/modules/inverse_path_graph"
-    autoload :RelationshipGraph, "#{prefix}/modules/relationship_graph"
-  end
-
+  # modules
+  autoload :BiDirectionalPathGraph, "#{module_prefix}/bi_directional_path_graph"
+  autoload :CompositeGraph, "#{module_prefix}/composite_graph"
+  autoload :EdgeGraph, "#{module_prefix}/edge_graph"
+  autoload :InversePathGraph, "#{module_prefix}/inverse_path_graph"
+  autoload :RelationshipGraph, "#{module_prefix}/relationship_graph"
 end

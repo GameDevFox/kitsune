@@ -1,5 +1,11 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'bundler/setup'
 require 'kitsune'
+
+
+Dir.glob('./lib/**/*.rb', &method(:require))
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
