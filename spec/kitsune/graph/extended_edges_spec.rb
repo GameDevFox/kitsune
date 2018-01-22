@@ -27,14 +27,14 @@ module ExtendedEdgesSpec
       end
 
       it 'heads' do
-        result = @edges.search tail: 'tail'
+        result = @edges.search tail: 'tail'.to_hex
         expect(result.edges.size).to be 2
         expect(result.type_edges.size).to be 0
       end
 
       it 'edges' do
         result = @edges.search head: SAME_GROUP, tail: CHILD_B
-        expect(result.edges[0]['edge'].to_hex).to eql('ad19b9a6775c62d18037b3b65544f9adbc92a42fb0a3f3b4f1ade8c9da1a6893')
+        expect(result.edges[0]['edge']).to eql('ad19b9a6775c62d18037b3b65544f9adbc92a42fb0a3f3b4f1ade8c9da1a6893')
         expect(result.type_edges.size).to be 0
       end
 
@@ -45,19 +45,19 @@ module ExtendedEdgesSpec
       end
 
       it 'tail types' do
-        result = @edges.search head: 'Alice', type: NAME
+        result = @edges.search head: 'Alice'.to_hex, type: NAME
         expect(result.edges.size).to be 2
         expect(result.type_edges.size).to be 2
       end
 
       it 'head types' do
-        result = @edges.search tail: 'b', type: NAME
+        result = @edges.search tail: 'b'.to_hex, type: NAME
         expect(result.edges.size).to be 2
         expect(result.type_edges.size).to be 2
       end
 
       it 'types' do
-        result = @edges.search head: 'Alice', tail: 'a', type: NAME
+        result = @edges.search head: 'Alice'.to_hex, tail: 'a'.to_hex, type: NAME
         expect(result.edges.size).to be 1
         expect(result.type_edges.size).to be 1
       end

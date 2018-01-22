@@ -4,7 +4,7 @@ using Kitsune::Refine
 
 module Kitsune::Nodes
 
-  RSpec.describe Kitsune::CompositeSystem do
+  RSpec.describe Kitsune::Systems::SuperSystem do
     nil_system = (Class.new do
       include Kitsune::System
     end).new
@@ -39,7 +39,7 @@ module Kitsune::Nodes
     end).new
 
     it 'should return the first result if result is not array' do
-      sys = Kitsune::CompositeSystem.new
+      sys = Kitsune::Systems::SuperSystem.new
       sys.systems = [nil_system, string_system, nil_system]
 
       result = sys.command 'test'
@@ -48,7 +48,7 @@ module Kitsune::Nodes
     end
 
     it 'should concatenate results if results are arrays' do
-      sys = Kitsune::CompositeSystem.new
+      sys = Kitsune::Systems::SuperSystem.new
       sys << nil_system
       sys << array_system_a
       sys << nil_system
@@ -60,7 +60,7 @@ module Kitsune::Nodes
     end
 
     it 'should throw an exception if mixed result types are returned' do
-      sys = Kitsune::CompositeSystem.new [array_system_a, nil_system, string_system]
+      sys = Kitsune::Systems::SuperSystem.new [array_system_a, nil_system, string_system]
 
       expect {
         sys.command 'test'
@@ -68,7 +68,7 @@ module Kitsune::Nodes
     end
 
     it 'should implement it\'s own version of HAS_SUPPORTED_COMMAND' do
-      sys = Kitsune::CompositeSystem.new [nil_system, string_system, array_system_a, array_system_b]
+      sys = Kitsune::Systems::SuperSystem.new [nil_system, string_system, array_system_a, array_system_b]
 
       expect(sys.command ~[HAS, [SUPPORTED, COMMAND]], 'test').to be true
       expect(sys.command ~[HAS, [SUPPORTED, COMMAND]], 'one more').to be true

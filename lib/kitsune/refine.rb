@@ -23,5 +23,15 @@ module Kitsune::Refine
       sym = "#{type_str}_hash".to_sym
       Kitsune::Hash.send sym, self
     end
+
+    def hexify
+      Kitsune::Util.hexify_array self
+    end
+  end
+
+  refine Hash do
+    def hexify
+      Kitsune::Util.hexify_hash self
+    end
   end
 end

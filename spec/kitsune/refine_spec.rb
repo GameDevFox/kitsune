@@ -16,10 +16,22 @@ module Kitsune::Nodes
     end
 
     context Array do
-      it 'Should be able to hash arrays by type' do
-        expect(([NODE, EDGE] ** :edge).to_hex).to eq '15058e274e041418ad58f9a98b7febe9280490ccc658cae5e837ebf8e07b69dd'
-        expect(([NODE, EDGE, GROUP, CHAIN] ** :group).to_hex).to eq '666cf542e6ffc3ee65fa06d3c29d1dd80a77ce925939780cd6e2e886c344c3c9'
-        expect(([NODE, EDGE, GROUP, CHAIN] ** :list).to_hex).to eq '8796ebacff0bcd4a519fb64a54eca78825245e04076e6546b5f63c0e6ddd5935'
+      it 'should be able to hash arrays by type' do
+        expect([NODE, EDGE] ** :edge).to eq '15058e274e041418ad58f9a98b7febe9280490ccc658cae5e837ebf8e07b69dd'
+        expect([NODE, EDGE, GROUP, CHAIN] ** :group).to eq '666cf542e6ffc3ee65fa06d3c29d1dd80a77ce925939780cd6e2e886c344c3c9'
+        expect([NODE, EDGE, GROUP, CHAIN] ** :list).to eq '8796ebacff0bcd4a519fb64a54eca78825245e04076e6546b5f63c0e6ddd5935'
+      end
+
+      it 'should be able to hexify' do
+        result = ['one', ['two', 'three', ['four', 'five', 'six']]].hexify
+        expect(result).to eq ['6f6e65', ['74776f', '7468726565', ['666f7572', '66697665', '736978']]]
+      end
+    end
+
+    context Hash do
+      it 'should be able to hexify' do
+        result = { one: 'two', three: { four: 'five', six: 'seven', eight: { nine: 'ten', eleven: 12, thirteen: 14 } } }.hexify
+        expect(result).to eq({ one: '74776f', three:  { four: '66697665', six: '736576656e', eight: { nine: '74656e', eleven: 12, thirteen: 14 } } })
       end
     end
   end

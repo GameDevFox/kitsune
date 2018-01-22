@@ -1,5 +1,7 @@
 require 'digest/sha2'
 
+using Kitsune::Refine
+
 module Kitsune::Hash
   include Kitsune::Nodes
 
@@ -8,11 +10,13 @@ module Kitsune::Hash
   end
 
   def self.hash_list(list)
-    sha256 list.join
+    b_list = list.map { |item| item.from_hex }
+    b_hash = sha256 b_list.join
+    b_hash.to_hex
   end
 
   def self.hash_type(type, list)
-    hash_list [type] + list
+    hash_list([type] + list)
   end
 
   def self.edge_hash(edge)

@@ -1,29 +1,34 @@
 using Kitsune::Refine
 
-class Kitsune::Graph::SQLite3Graph
+class Kitsune::Systems::SQLite3EdgeSystem
   include Kitsune::Nodes
   include Kitsune::System
 
-  def self.init(db)
-    db.execute <<~EOF
-      CREATE TABLE edges (
-        edge VARCHAR(32) PRIMARY KEY ON CONFLICT IGNORE,
-        head VARCHAR(32),
-        tail VARCHAR(32)
-      );
-    EOF
-  end
-
   def initialize(db)
     @db = db
+    db.results_as_hash = true
 
-    @db.results_as_hash = true
+    # should we create the table?
+    result = db.execute "SELECT COUNT(*) as has_table FROM sqlite_master WHERE type='table' AND name='edges'"
+    has_table = result[0]['has_table'].positive?
+    create_table unless has_table
 
     @all = @db.prepare 'SELECT * FROM edges;'
     @count = @db.prepare 'SELECT COUNT(*) as count FROM edges;'
     @select_one = @db.prepare 'SELECT * FROM edges WHERE edge = :edge;'
     @insert = @db.prepare 'INSERT INTO edges (edge, head, tail) VALUES (:edge, :head, :tail);'
     @delete = @db.prepare 'DELETE FROM edges WHERE edge = :edge;'
+  end
+
+  def create_table
+    puts 'Creating "edges" table'
+    @db.execute <<~EOF
+      CREATE TABLE edges (
+        edge VARCHAR(32) PRIMARY KEY ON CONFLICT IGNORE,
+        head VARCHAR(32),
+        tail VARCHAR(32)
+      );
+    EOF
   end
 
   command ~[LIST, EDGE] do

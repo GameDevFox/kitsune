@@ -2,7 +2,7 @@ require 'forwardable'
 
 using Kitsune::Refine
 
-class Kitsune::CompositeSystem
+class Kitsune::Systems::SuperSystem
   extend Forwardable
   include Kitsune::System
 

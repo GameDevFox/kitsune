@@ -18,6 +18,7 @@ module Kitsune::System
     }
   end
 
+  # verb
   def command(node, input = nil)
     block = self.class.commands[node]
     throw "Command #{node.inspect} is not supported by this system" unless block
@@ -30,6 +31,7 @@ module Kitsune::System
       @procs
     end
 
+    # noun
     def command(node, &block)
       commands[node] = block
     end

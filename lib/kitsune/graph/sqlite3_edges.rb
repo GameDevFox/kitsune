@@ -63,7 +63,7 @@ class Kitsune::Graph::SQLite3Edges
 
   def has_edge(edge)
     edge_count = @has_ps.execute({ edge: edge }).to_a[0][0]
-    throw "More than one edge for #{edge.to_hex}" if edge_count > 1
+    throw "More than one edge for #{edge}" if edge_count > 1
 
     edge_count.positive?
   end

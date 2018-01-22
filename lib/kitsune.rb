@@ -1,17 +1,19 @@
 module Kitsune
+  prefix = 'kitsune'
+
   # modules
-  autoload :Graph, 'kitsune/graph/graph'
-  autoload :String, 'kitsune/string/string'
-  autoload :Web, 'kitsune/web/web'
+  autoload :Graph, "#{prefix}/graph"
+  autoload :Systems, "#{prefix}/systems"
 
   # classes
-  autoload :App, 'kitsune/app'
-  autoload :CompositeSystem, 'kitsune/composite_system'
-  autoload :Name, 'kitsune/name'
-  autoload :Hash, 'kitsune/hash'
-  autoload :Nodes, 'kitsune/nodes'
-  autoload :Refine, 'kitsune/refine'
-  autoload :System, 'kitsune/system'
-  autoload :Util, 'kitsune/util'
-  autoload :Version, 'kitsune/version'
+  autoload :App, "#{prefix}/app"
+  autoload :Builder, "#{prefix}/builder"
+  autoload :Hash, "#{prefix}/hash"
+  autoload :Misc, "#{prefix}/misc"
+  autoload :Nodes, "#{prefix}/nodes"
+  autoload :RackApp, "#{prefix}/rack_app"
+  autoload :Refine, "#{prefix}/refine"
+  autoload :System, "#{prefix}/system"
+  autoload :Util, "#{prefix}/util"
+  autoload :Version, "#{prefix}/version"
 end

@@ -1,5 +1,7 @@
 require_relative 'graph_spec_helper'
 
+using Kitsune::Refine
+
 module QueryResultSpec
   include GraphSpecHelper
 
@@ -9,27 +11,27 @@ module QueryResultSpec
       @edges = GraphSpecHelper.sample_edges_b @edges
       @type_edges = GraphSpecHelper.add_some_edges @edges
 
-      @edges.create_type 'Alice', 'Bob', PARENT
+      @edges.create_type 'Alice'.to_hex, 'Bob'.to_hex, PARENT
     end
 
     it 'should return uniq results' do
-      result = @edges.search head: 'Alice', type: NAME
-      expect(result.heads).to eql ['Alice']
+      result = @edges.search head: 'Alice'.to_hex, type: NAME
+      expect(result.heads).to eql ['Alice'.to_hex]
     end
 
     it 'should be able to get heads' do
-      result = @edges.search tail: 'b', type: NAME
-      expect(result.heads).to eql %w(Bob Robert)
+      result = @edges.search tail: 'b'.to_hex, type: NAME
+      expect(result.heads).to eql %w(Bob Robert).map { |x| x.to_hex }
     end
 
     it 'should be able to get tails' do
-      result = @edges.search head: 'Alice', type: NAME
-      expect(result.tails).to eql %w(a aa)
+      result = @edges.search head: 'Alice'.to_hex, type: NAME
+      expect(result.tails).to eql %w(a aa).map { |x| x.to_hex }
     end
 
     it 'should be able to get types' do
-      result = @edges.search head: 'Alice'
-      expect(result.types).to eql %w(name parent)
+      result = @edges.search head: 'Alice'.to_hex
+      expect(result.types).to eql %w(name parent).map { |x| x.to_hex }
     end
 
     it 'should be able to get edge_nodes' do

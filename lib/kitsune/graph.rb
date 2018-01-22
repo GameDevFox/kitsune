@@ -5,9 +5,7 @@ module Kitsune::Graph
   autoload :ExtendedGraph, "#{prefix}/extended_graph"
   autoload :Node, "#{prefix}/node"
   autoload :QueryResult, "#{prefix}/query_result"
-  autoload :Relation, "#{prefix}/relation.rb"
   autoload :SQLite3Edges, "#{prefix}/sqlite3_edges"
-  autoload :SQLite3Graph, "#{prefix}/sqlite3_graph"
   autoload :System, "#{prefix}/system"
 
   module_prefix = "#{prefix}/modules"

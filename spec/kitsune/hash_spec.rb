@@ -9,7 +9,8 @@ RSpec.describe Kitsune::Hash do
   end
 
   it 'should generate get the hash for a list of hashes' do
-    hash = Kitsune::Hash.hash_list %w(hello world one more)
-    expect(hash.to_hex).to eql('2a6498ec4ab4a0123cc592ab1c4e4efc1aef85e4eda86d91fca35adc8b582e74')
+    list = %w(hello world one more).map { |str| str.to_hex }
+    hash = Kitsune::Hash.hash_list list
+    expect(hash).to eql('2a6498ec4ab4a0123cc592ab1c4e4efc1aef85e4eda86d91fca35adc8b582e74')
   end
 end

@@ -1,20 +1,22 @@
 require 'spec_helper'
 
+using Kitsune::Refine
+
 module GraphSpecHelper
   include Kitsune::Nodes
   
-  SIBLING = 'sibling'
-  PARENT = 'parent'
-  CHILD = 'child'
+  SIBLING = 'sibling'.to_hex
+  PARENT = 'parent'.to_hex
+  CHILD = 'child'.to_hex
 
   SAME = 'same'
-  SAME_GROUP = 'same_group'
-  CHILD_A = 'childA'
-  CHILD_B = 'childB'
-  CHILD_C = 'childC'
-  CHILD_D = 'childD'
+  SAME_GROUP = 'same_group'.to_hex
+  CHILD_A = 'childA'.to_hex
+  CHILD_B = 'childB'.to_hex
+  CHILD_C = 'childC'.to_hex
+  CHILD_D = 'childD'.to_hex
 
-  NAME = 'name'
+  NAME = 'name'.to_hex
 
   def self.create_db
     db = SQLite3::Database.new(':memory:')
@@ -27,9 +29,9 @@ module GraphSpecHelper
     db = create_db
 
     edges = Kitsune::Graph::SQLite3Edges.new db
-    edges.create_edge 'head', 'tail'
-    edges.create_type 'brother', 'sister', SIBLING
-    edges.create_type 'father', 'son', CHILD
+    edges.create_edge 'head'.to_hex, 'tail'.to_hex
+    edges.create_type 'brother'.to_hex, 'sister'.to_hex, SIBLING
+    edges.create_type 'father'.to_hex, 'son'.to_hex, CHILD
 
     # Set as bi-directional paths
     edges.create_edge BI_DIRECTIONAL_PATHS, INVERSE_PATH
@@ -50,17 +52,17 @@ module GraphSpecHelper
   end
 
   def self.sample_edges_b(edges)
-    edges.create_edge 'another-head', 'tail'
+    edges.create_edge 'another-head'.to_hex, 'tail'.to_hex
     edges
   end
 
   def self.add_some_edges(edges)
     type_edges = []
-    type_edges.push edges.create_type('Alice', 'a', NAME)
-    type_edges.push edges.create_type('Bob', 'b', NAME)
-    type_edges.push edges.create_type('Robert', 'b', NAME)
-    type_edges.push edges.create_type('Chris', 'c', NAME)
-    type_edges.push edges.create_type('Alice', 'aa', NAME)
+    type_edges.push edges.create_type('Alice'.to_hex, 'a'.to_hex, NAME)
+    type_edges.push edges.create_type('Bob'.to_hex, 'b'.to_hex, NAME)
+    type_edges.push edges.create_type('Robert'.to_hex, 'b'.to_hex, NAME)
+    type_edges.push edges.create_type('Chris'.to_hex, 'c'.to_hex, NAME)
+    type_edges.push edges.create_type('Alice'.to_hex, 'aa'.to_hex, NAME)
     type_edges
   end
 end
