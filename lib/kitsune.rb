@@ -2,6 +2,7 @@ module Kitsune
   prefix = 'kitsune'
 
   # modules
+  autoload :Coders, "#{prefix}/coders"
   autoload :Graph, "#{prefix}/graph"
   autoload :Systems, "#{prefix}/systems"
 

@@ -20,15 +20,15 @@ class Kitsune::Systems::RelationSystem
     @system.command ~[DELETE, EDGE], relation
   end
 
-  def list_node_relation(nodeKey, relationKey, criteria)
-    edges = @system.command ~[SEARCH, EDGE], { nodeKey => criteria[:node] }
+  def list_node_relation(node_key, relation_key, criteria)
+    edges = @system.command ~[SEARCH, EDGE], { node_key => criteria[:node] }
     edge_ids = edges.map { |edge| edge['edge'] }
 
     type_edges = @system.command ~[SEARCH, EDGE], { head: criteria[:type], tail: edge_ids }
     type_edge_tails = type_edges.map { |edge| edge['tail'] }
 
     filtered_edges = edges.select { |edge| type_edge_tails.include?(edge['edge']) }
-    filtered_edges.map { |edge| edge[relationKey.to_s] }
+    filtered_edges.map { |edge| edge[relation_key.to_s] }
   end
 
   command ~[LIST, [NODE, RELATION]] do |criteria|

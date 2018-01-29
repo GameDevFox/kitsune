@@ -6,37 +6,6 @@ class Kitsune::Misc
   include Kitsune::Nodes
   include Kitsune::System
 
-  def initialize(base)
-    @base = base
-  end
-
-  # TODO: Clean up
-  command NAMED_COMMAND do |input|
-    p :here
-
-    command_names = input[0]
-    args = input[1]
-
-    proc_chain = command_names.map { |name|
-      nodes = @base.command ~[LIST, [NAME, NODE]], name
-
-      throw "No nodes found for name: #{name}" if nodes.size == 0
-      throw "More than one node found for name: #{name}" if nodes.size > 1
-
-      system = nodes[0]
-      proc = resolve(system)
-      throw [400, {}, ["Could not resolve system for id: #{system}"]] unless proc
-      proc
-    }
-
-    result = args
-    proc_chain.each { |proc|
-      result = proc.call result
-    }
-
-    result
-  end
-
   command ~[READ, EDGE] do |query_result|
     query_result.edges
   end
@@ -65,7 +34,7 @@ class Kitsune::Misc
     input.hexify
   end
 
-  command ~[CODER, RUBY] do |system|
+  command ~[CODE, RUBY] do |system|
     templates = {}
     templates[HELLO_WORLD] = <<~EOF
       puts 'Hello World'
@@ -74,7 +43,7 @@ class Kitsune::Misc
     templates[system]
   end
 
-  command ~[CODER, ECMA_SCRIPT] do |system|
+  command ~[CODE, ECMA_SCRIPT] do |system|
     templates = {}
     templates[HELLO_WORLD] = <<~EOF
       console.log('Hello World');
@@ -83,7 +52,7 @@ class Kitsune::Misc
     templates[system]
   end
 
-  command ~[CODER, C] do |system|
+  command ~[CODE, C] do |system|
     templates = {}
     templates[HELLO_WORLD] = <<~EOF
       #include "stdio.h"
@@ -99,7 +68,7 @@ class Kitsune::Misc
     templates[system]
   end
 
-  command ~[CODER, JAVA] do |system|
+  command ~[CODE, JAVA] do |system|
     templates = {}
     templates[HELLO_WORLD] = <<~EOF
       public class App {

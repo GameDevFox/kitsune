@@ -17,12 +17,14 @@ module Kitsune::Builder
 
     system = Kitsune::Systems::SuperSystem.new
 
-    system << Kitsune::Systems::SQLite3EdgeSystem.new(db)
-    system << Kitsune::Systems::StringSystem.new(db)
+    system << Kitsune::Systems::SQLite3EdgeSystem.new(db, debug: true)
+    system << Kitsune::Systems::StringSystem.new(db, true)
+    system << Kitsune::Systems::IntegerSystem.new
+
     system << Kitsune::Systems::RelationSystem.new(system)
     system << Kitsune::Systems::NameSystem.new(system)
 
-    system << Kitsune::Misc.new(system)
+    system << Kitsune::Misc.new
 
     system
   end
@@ -30,6 +32,7 @@ module Kitsune::Builder
   def self.build(system = nil)
     system ||= build_system
 
+    # TODO: Move this to a system and configure it for logging
     puts ''
     Kitsune::Nodes.constants.each { |const|
       name = const.to_s.downcase

@@ -29,8 +29,8 @@ class Kitsune::Systems::SuperSystem
       if result.class == Array
         result += this_result
       else
+        # TODO: Do something here if there are multiple single results
         result = this_result
-        break unless result.class == Array
       end
     end
 

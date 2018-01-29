@@ -16,12 +16,41 @@ module Kitsune::Nodes
   FIVE = 'five'.to_hex
   SIX = 'six'.to_hex
 
+  class InitTester
+    include Kitsune::System
+    include Kitsune::Nodes
+
+    attr_reader :init, :init_edge
+
+    command INIT do
+      @init = true
+    end
+
+    command ~[INIT, [SYSTEM, EDGE]] do
+      @init_edge = true
+    end
+  end
+
   RSpec.describe Kitsune::Systems::SQLite3EdgeSystem do
     before(:each) do
       db = SQLite3::Database.new ':memory:'
 
-      @graph = Kitsune::Systems::SQLite3EdgeSystem.new db
+      system = Kitsune::Systems::SuperSystem.new
+
+      @graph = Kitsune::Systems::SQLite3EdgeSystem.new(db, system: system)
+      @init_tester = InitTester.new
+
+      system << @graph
+      system << @init_tester
+
+      system.command INIT
+
       @edge_node = @graph.command ~[WRITE, EDGE], { head: HELLO, tail: WORLD }
+    end
+
+    it 'should handle INIT' do
+      expect(@init_tester.init).to be true
+      expect(@init_tester.init_edge).to be true
     end
 
     it 'should be able to count edges' do

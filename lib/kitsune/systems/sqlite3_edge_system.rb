@@ -4,13 +4,14 @@ class Kitsune::Systems::SQLite3EdgeSystem
   include Kitsune::Nodes
   include Kitsune::System
 
-  def initialize(db)
+  def initialize(db, system: nil, debug: false)
     @db = db
+    @system = system
+    @debug = debug
+    @new_table = false
+
     db.results_as_hash = true
 
-    # should we create the table?
-    result = db.execute "SELECT COUNT(*) as has_table FROM sqlite_master WHERE type='table' AND name='edges'"
-    has_table = result[0]['has_table'].positive?
     create_table unless has_table
 
     @all = @db.prepare 'SELECT * FROM edges;'
@@ -20,8 +21,15 @@ class Kitsune::Systems::SQLite3EdgeSystem
     @delete = @db.prepare 'DELETE FROM edges WHERE edge = :edge;'
   end
 
+  def has_table
+    result = @db.execute "SELECT COUNT(*) as has_table FROM sqlite_master WHERE type='table' AND name='edges'"
+    result[0]['has_table'].positive?
+  end
+
   def create_table
-    puts 'Creating "edges" table'
+    @new_table = true
+
+    puts 'Creating "edges" table' if @debug
     @db.execute <<~EOF
       CREATE TABLE edges (
         edge VARCHAR(32) PRIMARY KEY ON CONFLICT IGNORE,
@@ -29,6 +37,16 @@ class Kitsune::Systems::SQLite3EdgeSystem
         tail VARCHAR(32)
       );
     EOF
+  end
+
+  def writeEdge(edge)
+    edge[:edge] = ~[edge[:head], edge[:tail]]
+    @insert.execute edge
+    edge[:edge]
+  end
+
+  command INIT do
+    @system.command ~[INIT, [SYSTEM, EDGE]] if @system && @new_table
   end
 
   command ~[LIST, EDGE] do
@@ -45,9 +63,11 @@ class Kitsune::Systems::SQLite3EdgeSystem
   end
 
   command ~[WRITE, EDGE] do |edge|
-    edge[:edge] = ~[edge[:head], edge[:tail]]
-    @insert.execute edge
-    edge[:edge]
+    if edge.class == Array
+      edge.map { |e| writeEdge e }
+    else
+      writeEdge(edge)
+    end
   end
 
   command ~[DELETE, EDGE] do |edge_node|

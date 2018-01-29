@@ -4,8 +4,10 @@ class Kitsune::Systems::StringSystem
   include Kitsune::Nodes
   include Kitsune::System
 
-  def initialize(db)
+  def initialize(db, debug = false)
     @db = db
+    @debug = debug
+
     db.results_as_hash = true
 
     # should we create the table?
@@ -19,7 +21,8 @@ class Kitsune::Systems::StringSystem
   end
 
   def create_table
-    puts 'Creating "strings" table'
+    puts 'Creating "strings" table' if @debug
+
     @db.execute <<~EOF
       CREATE TABLE strings (
         hash VARCHAR(32) PRIMARY KEY ON CONFLICT IGNORE,
