@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'kitsune/spec_helper'
 
 using Kitsune::Refine
 

@@ -13,7 +13,7 @@ class Kitsune::Systems::SuperSystem
     @systems = systems
   end
 
-  def command(node, input = nil)
+  def execute(node, input = nil)
     self_command = self.class.commands[node]
     return self.instance_exec input, &self_command if self_command
 
@@ -21,10 +21,10 @@ class Kitsune::Systems::SuperSystem
 
     result = nil
     @systems.each do |system|
-      next unless system.command ~[HAS, [SUPPORTED, COMMAND]], node
+      next unless system.execute ~[HAS, [SUPPORTED, COMMAND]], node
 
       not_found = false
-      this_result = system.command node, input
+      this_result = system.execute node, input
 
       if result.class == Array
         result += this_result
@@ -40,6 +40,6 @@ class Kitsune::Systems::SuperSystem
   end
 
   command ~[HAS, [SUPPORTED, COMMAND]] do |command|
-    @systems.any? { |system| system.command ~[HAS, [SUPPORTED, COMMAND]], command }
+    @systems.any? { |system| system.execute ~[HAS, [SUPPORTED, COMMAND]], command }
   end
 end

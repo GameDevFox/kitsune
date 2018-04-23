@@ -8,19 +8,19 @@ class Kitsune::Systems::ListSystem
     @system = system
   end
 
-  command ~[WRITE, LIST] do |list|
+  command ~[WRITE, LIST_N] do |list|
     list_hash = Kitsune::Hash.list_hash list
 
     container = list_hash
     list.each { |item|
-      container = @system.command ~[WRITE, EDGE], { head: container, tail: item }
+      container = @system.execute ~[WRITE, EDGE], { head: container, tail: item }
     }
 
     list_hash
   end
 
-  command ~[READ, LIST] do |list_node|
-    edge = @system.command ~[SEARCH, EDGE], { head: list_node }
+  command ~[READ, LIST_N] do |list_node|
+    edge = @system.execute ~[SEARCH, EDGE], { head: list_node }
 
     list = []
     until edge.empty?
@@ -29,7 +29,7 @@ class Kitsune::Systems::ListSystem
       item, container = edge[0].values_at 'tail', 'edge'
       list << item
 
-      edge = @system.command ~[SEARCH, EDGE], { head: container }
+      edge = @system.execute ~[SEARCH, EDGE], { head: container }
     end
 
     list

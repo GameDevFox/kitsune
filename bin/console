@@ -9,7 +9,7 @@ require 'kitsune'
 using Kitsune::Refine
 include Kitsune::Nodes
 
-app = Kitsune::Builder.build
+system = Kitsune.new
 
 # (If you use this, don't forget to add pry to your Gemfile!)
 require 'pry'

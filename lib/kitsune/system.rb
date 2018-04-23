@@ -8,7 +8,7 @@ module Kitsune::System
     base.extend(ClassMethods)
 
     base.class_eval {
-      command ~[LIST, [SUPPORTED, COMMAND]] do
+      command ~[LIST_V, [SUPPORTED, COMMAND]] do
         self.class.commands.keys
       end
 
@@ -18,8 +18,7 @@ module Kitsune::System
     }
   end
 
-  # verb
-  def command(node, input = nil)
+  def execute(node, input = nil)
     block = self.class.commands[node]
     throw "Command #{node.inspect} is not supported by this system" unless block
 
@@ -31,7 +30,6 @@ module Kitsune::System
       @procs
     end
 
-    # noun
     def command(node, &block)
       commands[node] = block
     end

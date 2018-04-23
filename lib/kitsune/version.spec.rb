@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative './spec_helper'
 
 RSpec.describe Kitsune do
   it 'has a version number' do

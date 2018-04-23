@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative '../spec_helper'
 
 using Kitsune::Refine
 
@@ -42,7 +42,7 @@ module Kitsune::Nodes
       sys = Kitsune::Systems::SuperSystem.new
       sys.systems = [nil_system, string_system, nil_system]
 
-      result = sys.command 'test'
+      result = sys.execute 'test'
 
       expect(result).to eq 'hello'
     end
@@ -54,7 +54,7 @@ module Kitsune::Nodes
       sys << nil_system
       sys << array_system_b
 
-      result = sys.command 'test'
+      result = sys.execute 'test'
 
       expect(result).to eq [1, 2, 3, 7, 8, 9]
     end
@@ -63,17 +63,17 @@ module Kitsune::Nodes
       sys = Kitsune::Systems::SuperSystem.new [array_system_a, nil_system, string_system]
 
       expect {
-        sys.command 'test'
+        sys.execute 'test'
       }.to raise_error TypeError
     end
 
     it 'should implement it\'s own version of HAS_SUPPORTED_COMMAND' do
       sys = Kitsune::Systems::SuperSystem.new [nil_system, string_system, array_system_a, array_system_b]
 
-      expect(sys.command ~[HAS, [SUPPORTED, COMMAND]], 'test').to be true
-      expect(sys.command ~[HAS, [SUPPORTED, COMMAND]], 'one more').to be true
-      expect(sys.command ~[HAS, [SUPPORTED, COMMAND]], 'another one').to be true
-      expect(sys.command ~[HAS, [SUPPORTED, COMMAND]], 'not this').to be false
+      expect(sys.execute ~[HAS, [SUPPORTED, COMMAND]], 'test').to be true
+      expect(sys.execute ~[HAS, [SUPPORTED, COMMAND]], 'one more').to be true
+      expect(sys.execute ~[HAS, [SUPPORTED, COMMAND]], 'another one').to be true
+      expect(sys.execute ~[HAS, [SUPPORTED, COMMAND]], 'not this').to be false
     end
   end
 

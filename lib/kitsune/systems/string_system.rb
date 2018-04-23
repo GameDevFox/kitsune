@@ -17,7 +17,7 @@ class Kitsune::Systems::StringSystem
 
     @read = db.prepare 'SELECT string FROM strings WHERE hash = :hash'
     @write = db.prepare 'INSERT INTO strings (hash, string) VALUES (:hash, :string)'
-    @search = db.prepare 'SELECT hash, string FROM strings WHERE string LIKE :pattern'
+    @search = db.prepare 'SELECT hash, string FROM strings WHERE string LIKE :pattern ESCAPE "\"'
   end
 
   def create_table
@@ -43,7 +43,8 @@ class Kitsune::Systems::StringSystem
   end
 
   command ~[SEARCH, STRING] do |pattern|
-    result = @search.execute({ pattern: "%#{pattern}%" }).to_a
+    escaped_pattern = pattern.gsub('\\', '\\\\\\').gsub('_', '\_').gsub('%', '\%')
+    result = @search.execute({ pattern: "%#{escaped_pattern}%" }).to_a
     result.map { |row| [row['hash'], row['string']] }.to_h
   end
 end

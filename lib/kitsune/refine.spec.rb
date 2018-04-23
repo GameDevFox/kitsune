@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative './spec_helper'
 
 using Kitsune::Refine
 
@@ -19,7 +19,7 @@ module Kitsune::Nodes
       it 'should be able to hash arrays by type' do
         expect([NODE, EDGE] ** :edge).to eq '15058e274e041418ad58f9a98b7febe9280490ccc658cae5e837ebf8e07b69dd'
         expect([NODE, EDGE, GROUP, CHAIN] ** :group).to eq '666cf542e6ffc3ee65fa06d3c29d1dd80a77ce925939780cd6e2e886c344c3c9'
-        expect([NODE, EDGE, GROUP, CHAIN] ** :list).to eq '8796ebacff0bcd4a519fb64a54eca78825245e04076e6546b5f63c0e6ddd5935'
+        expect([NODE, EDGE, GROUP, CHAIN] ** :list).to eq '83996fcb66fee58e8480a012940f32b98071813942f0d0139bf4b72ed38e3de0'
       end
 
       it 'should be able to hexify' do

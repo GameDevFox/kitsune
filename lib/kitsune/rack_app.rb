@@ -4,8 +4,10 @@ require 'rack'
 using Kitsune::Refine
 
 class Kitsune::RackApp
-  def initialize(core)
-    @core = core
+  include Kitsune::Nodes
+
+  def initialize(system = nil)
+    @system = system || Kitsune.new
   end
 
   def call(env)
@@ -16,19 +18,15 @@ class Kitsune::RackApp
     chain = parts(req.path_info) || []
     return [400, {}, ['Path must consist of node ids in hexadecimal format']] unless chain.all? { |x| x.match? /^[a-f0-9]+$/ }
 
-    # Build proc chain
-    proc_chain = chain.map { |system|
-      proc = @core.resolve system
-      throw [400, {}, ["Could not resolve system for id: #{system}"]] unless proc
-      proc
-    }
-
     # RESOLVE and EXECUTE
     body = req.body.read.strip
     result = body.size > 0 ? JSON.parse(body) : nil
 
-    proc_chain.each { |proc|
-      result = proc.call result
+    chain.reverse.each { |system|
+      supports_command = @system.execute ~[HAS, [SUPPORTED, COMMAND]], system
+      throw [400, {}, ["Could not resolve system for id: #{system}"]] unless supports_command
+
+      result = @system.execute system, result
     }
 
     # OUTPUT

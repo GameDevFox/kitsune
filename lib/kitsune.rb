@@ -1,14 +1,11 @@
 module Kitsune
   prefix = 'kitsune'
 
-  # modules
   autoload :Coders, "#{prefix}/coders"
   autoload :Graph, "#{prefix}/graph"
   autoload :Systems, "#{prefix}/systems"
 
-  # classes
-  autoload :App, "#{prefix}/app"
-  autoload :Builder, "#{prefix}/builder"
+  autoload :DB, "#{prefix}/db"
   autoload :Hash, "#{prefix}/hash"
   autoload :Misc, "#{prefix}/misc"
   autoload :Nodes, "#{prefix}/nodes"
@@ -17,4 +14,10 @@ module Kitsune
   autoload :System, "#{prefix}/system"
   autoload :Util, "#{prefix}/util"
   autoload :Version, "#{prefix}/version"
+
+  def self.new(system = nil)
+    system ||= Kitsune::Systems::build
+    Kitsune::Nodes.name_nodes system
+    system
+  end
 end

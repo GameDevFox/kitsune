@@ -29,6 +29,6 @@ module Kitsune::Hash
   end
 
   def self.list_hash(list)
-    hash_type LIST, list
+    hash_type LIST_N, list
   end
 end

@@ -11,7 +11,4 @@ use Rack::Cors do
   end
 end
 
-app = Kitsune::Builder.build
-rack_app = Kitsune::RackApp.new app
-
-run rack_app
+run Kitsune::RackApp.new

@@ -4,9 +4,8 @@ class Kitsune::Systems::SQLite3EdgeSystem
   include Kitsune::Nodes
   include Kitsune::System
 
-  def initialize(db, system: nil, debug: false)
+  def initialize(db, debug: false)
     @db = db
-    @system = system
     @debug = debug
     @new_table = false
 
@@ -45,11 +44,7 @@ class Kitsune::Systems::SQLite3EdgeSystem
     edge[:edge]
   end
 
-  command INIT do
-    @system.command ~[INIT, [SYSTEM, EDGE]] if @system && @new_table
-  end
-
-  command ~[LIST, EDGE] do
+  command ~[LIST_V, EDGE] do
     @all.execute.to_a
   end
 

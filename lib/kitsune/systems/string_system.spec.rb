@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative '../spec_helper'
 
 using Kitsune::Refine
 
@@ -9,8 +9,8 @@ module Kitsune::Nodes
       db = SQLite3::Database.new ':memory:'
       @strings = Kitsune::Systems::StringSystem.new db
 
-      @hash_a = @strings.command ~[WRITE, STRING], 'Hello World'
-      @hash_b = @strings.command ~[WRITE, STRING], 'Another one'
+      @hash_a = @strings.execute ~[WRITE, STRING], 'Hello World'
+      @hash_b = @strings.execute ~[WRITE, STRING], 'Another one'
     end
 
     it 'should be able to write strings' do
@@ -19,9 +19,9 @@ module Kitsune::Nodes
     end
 
     it 'should be able to read strings' do
-      string_a = @strings.command ~[READ, STRING], @hash_a
-      string_b = @strings.command ~[READ, STRING], @hash_b
-      string_c = @strings.command ~[READ, STRING], 'abcd'
+      string_a = @strings.execute ~[READ, STRING], @hash_a
+      string_b = @strings.execute ~[READ, STRING], @hash_b
+      string_c = @strings.execute ~[READ, STRING], 'abcd'
 
       expect(string_a).to eq 'Hello World'
       expect(string_b).to eq 'Another one'
