@@ -200,6 +200,7 @@ function buildManualSystemBuilder(systems) {
             }});
 
             let paths = _.flatten(state.result[b]);
+            // TODO: Filter out duplicate edges out of "paths"
             let comps = crinklePath(paths);
 
             let result = comps[a][b];
